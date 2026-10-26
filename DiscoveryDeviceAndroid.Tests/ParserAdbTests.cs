@@ -10,15 +10,15 @@ public sealed class ParserAdbTests
     {
         var servicos = ParserAdb.Servicos("""
             List of discovered mdns services
-            adb-tablet-abc _adb-tls-connect._tcp 192.168.15.8:39775
-            adb-tablet-code _adb-tls-pairing._tcp. 192.168.15.8:41931
-            printer _ipp._tcp 192.168.15.20:631
+            adb-tablet-abc _adb-tls-connect._tcp 192.0.2.10:39775
+            adb-tablet-code _adb-tls-pairing._tcp. 192.0.2.10:41931
+            printer _ipp._tcp 192.0.2.20:631
             invalid _adb-tls-pairing._tcp invalid:42
             """);
         Assert.Equal(2, servicos.Count);
         Assert.False(servicos[0].Pareamento);
         Assert.True(servicos[1].Pareamento);
-        Assert.Equal("192.168.15.8:41931", servicos[1].Endereco);
+        Assert.Equal("192.0.2.10:41931", servicos[1].Endereco);
     }
 
     [Fact]

@@ -64,4 +64,4 @@ Referências oficiais:
 
 ## Automação no GitHub
 
-O workflow Release valida a versão, executa os testes e publica os arquivos no GitHub a partir de main por acionamento manual. Consulte [MANUTENCAO.md](MANUTENCAO.md). A publicação no Marketplace continua separada e manual; o workflow não usa credenciais da loja.
+O workflow Release valida a versão, executa os testes e publica os arquivos no GitHub a partir de main por acionamento manual. Consulte [guia de manutenção](https://github.com/afernandes/DiscoveryDeviceAndroid/blob/main/docs/MANUTENCAO.md). A publicação no Marketplace continua separada e manual; o workflow não usa credenciais da loja.

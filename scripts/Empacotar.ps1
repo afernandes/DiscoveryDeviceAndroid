@@ -58,6 +58,16 @@ try {
     Copy-Item -LiteralPath (Join-Path $raiz 'DiscoveryDeviceAndroid\Distribution\icon.png') -Destination (Join-Path $publicar 'marketplace')
     Copy-Item -LiteralPath (Join-Path $raiz 'DiscoveryDeviceAndroid\Distribution\preview.png') -Destination (Join-Path $publicar 'marketplace')
     Copy-Item -LiteralPath (Join-Path $raiz 'docs\PUBLICACAO.md') -Destination $publicar
+    foreach ($documento in @(Get-ChildItem -LiteralPath $publicar -Recurse -Filter '*.md' -File)) {
+        foreach ($link in [regex]::Matches([IO.File]::ReadAllText($documento.FullName), '\]\(([^\s)]+)(?:\s+"[^"]*")?\)')) {
+            $referencia = $link.Groups[1].Value.Trim('<','>')
+            if ($referencia -match '^([a-z][a-z0-9+.-]*:|#|/)') { continue }
+            $alvo = [Uri]::UnescapeDataString(($referencia -split '#', 2)[0])
+            if ($alvo -and -not (Test-Path -LiteralPath (Join-Path $documento.DirectoryName $alvo))) {
+                throw "Link quebrado no material distribuído $($documento.Name): $referencia"
+            }
+        }
+    }
     $zipDevs = Join-Path $destino ($nomeBase + '-devs.zip')
     $zipLoja = Join-Path $destino ($nomeBase + '-marketplace.zip')
     [IO.Compression.ZipFile]::CreateFromDirectory($compartilhar, $zipDevs)
