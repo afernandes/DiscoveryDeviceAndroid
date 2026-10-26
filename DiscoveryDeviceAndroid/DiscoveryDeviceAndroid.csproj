@@ -6,15 +6,13 @@
     <NeutralLanguage>pt-BR</NeutralLanguage>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>latest</LangVersion>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
     <PackageReleaseNotes>Melhoria da exibição do QR code na primeira geração e preparação do pacote de distribuição.</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Extensibility.Sdk" Version="17.14.40608" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Extensibility.Build" Version="17.14.40608" PrivateAssets="all" />
     <PackageReference Include="QRCoder" Version="1.8.1" />
+    <PackageReference Include="MessagePack" Version="2.5.307" ExcludeAssets="analyzers" />
     <ProjectReference Include="..\DiscoveryDeviceAndroid.Core\DiscoveryDeviceAndroid.Core.csproj" />
     <EmbeddedResource Include="**\*.xaml" />
     <Content Include=".vsextension\string-resources.json" CopyToOutputDirectory="PreserveNewest" />

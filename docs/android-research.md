@@ -1,6 +1,6 @@
 # Investigação do pareamento Wi-Fi do Android Studio
 
-Data: 26/10/2026. Inspeção estática, sem executar código do Android Studio nem efetuar pareamento em aparelho.
+Data: 26/10/2026. Identificadores de dispositivo e endereços dos exemplos foram anonimizados. Inspeção estática, sem executar código do Android Studio nem efetuar pareamento em aparelho.
 
 ## Identidade do artefato
 
@@ -91,11 +91,11 @@ O cliente fica em execução acompanhando mudanças. A captura passiva abaixo fo
 Services:
 tls {
   service {
-    instance: "adb-RX2Y500RDTM-9oc9ZW"
+    instance: "adb-EXEMPLO1234-demo"
     service: "_adb-tls-connect._tcp"
-    ipv4: "192.168.15.8"
-    ipv6: "2804:7f0:8426:8edc:336e:7c19:6c30:d0a4"
-    ipv6: "fe80:0:0:0:80c6:8fff:fe0c:ecda"
+    ipv4: "192.0.2.10"
+    ipv6: "2001:db8::10"
+    ipv6: "fe80::10"
     ipv6: "2804:7f0:8426:8edc:80c6:8fff:fe0c:ecda"
     ipv6: "2804:7f0:8426:8edc:9590:60c8:1808:f4b6"
     port: 39775

@@ -8,11 +8,11 @@ public sealed class MdnsSnapshotTests
     private const string Quadro = """
         tls {
           service {
-            instance: "adb-RX2Y500RDTM-9oc9ZW"
+            instance: "adb-EXEMPLO1234-demo"
             service: "_adb-tls-connect._tcp"
-            ipv4: "192.168.15.8"
-            ipv6: "2804:7f0:8426:8edc:336e:7c19:6c30:d0a4"
-            ipv6: "fe80:0:0:0:80c6:8fff:fe0c:ecda"
+            ipv4: "192.0.2.10"
+            ipv6: "2001:db8::10"
+            ipv6: "fe80::10"
             port: 39775
             product_model: "SM-X820"
             build_version_sdk_full: "36.1"
@@ -25,7 +25,7 @@ public sealed class MdnsSnapshotTests
           service {
             instance: "studio-sessao"
             service: "_adb-tls-pairing._tcp"
-            ipv4: "192.168.15.8"
+            ipv4: "192.0.2.10"
             port: 41931
           }
         }
@@ -40,9 +40,9 @@ public sealed class MdnsSnapshotTests
         Assert.Equal("36.1", servicos[0].Api);
         Assert.Equal("1", servicos[0].VersaoMdns);
         Assert.True(servicos[0].DispositivoConhecido);
-        Assert.Equal("192.168.15.8:39775", servicos[0].Endereco);
+        Assert.Equal("192.0.2.10:39775", servicos[0].Endereco);
         Assert.True(servicos[1].Pareamento);
-        Assert.Equal("192.168.15.8:41931", servicos[1].Endereco);
+        Assert.Equal("192.0.2.10:41931", servicos[1].Endereco);
     }
 
     [Fact]

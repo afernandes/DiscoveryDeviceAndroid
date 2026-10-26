@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Instalação e solução de problemas
+    url: https://github.com/afernandes/DiscoveryDeviceAndroid/blob/main/docs/INSTALACAO.md
+    about: Confira os requisitos e os passos de diagnóstico.
+  - name: Relatar uma vulnerabilidade em privado
+    url: https://github.com/afernandes/DiscoveryDeviceAndroid/security/advisories/new
+    about: Não publique credenciais ou detalhes de exploração em uma issue pública.

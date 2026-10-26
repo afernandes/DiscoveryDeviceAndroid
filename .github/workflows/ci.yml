@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'chore/**', 'fix/**', 'feature/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  windows:
+    name: Validar Windows
+    runs-on: windows-2025
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - name: Validar e empacotar
+        shell: pwsh
+        run: ./scripts/Empacotar.ps1 -DiretorioSaida ./artifacts/distribuicao
+      - name: Guardar relatórios de testes
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: test-results
+          path: TestResults/**/*.trx
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Guardar distribuição
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: distribuicao
+          path: |
+            artifacts/distribuicao/*.vsix
+            artifacts/distribuicao/*.zip
+            artifacts/distribuicao/SHA256SUMS.txt
+            artifacts/distribuicao/release-info.json
+          if-no-files-found: error
+          retention-days: 14

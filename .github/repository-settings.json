@@ -1,0 +1,79 @@
+{
+  "repository": {
+    "description": "Extensão para Visual Studio: descoberta e pareamento de Android via Wi-Fi por QR code ou código. C#, ADB e licença MIT.",
+    "homepage": "https://github.com/afernandes/DiscoveryDeviceAndroid/releases",
+    "has_issues": true,
+    "has_wiki": false,
+    "has_projects": false,
+    "allow_squash_merge": true,
+    "allow_merge_commit": false,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true,
+    "allow_update_branch": true,
+    "squash_merge_commit_title": "PR_TITLE",
+    "squash_merge_commit_message": "PR_BODY",
+    "security_and_analysis": {
+      "secret_scanning": { "status": "enabled" },
+      "secret_scanning_push_protection": { "status": "enabled" }
+    }
+  },
+  "topics": ["android", "adb", "visual-studio", "vsix", "dotnet", "csharp", "maui", "wireless-debugging"],
+  "actions": {
+    "enabled": true,
+    "allowed_actions": "selected",
+    "sha_pinning_required": true
+  },
+  "selectedActions": {
+    "github_owned_allowed": true,
+    "verified_allowed": false,
+    "patterns_allowed": []
+  },
+  "labels": [
+    { "name": "needs-triage", "color": "D4C5F9", "description": "Aguardando reprodução e classificação" },
+    { "name": "ci", "color": "1D76DB", "description": "Build, testes e automação" },
+    { "name": "security", "color": "B60205", "description": "Correção ou melhoria de segurança já divulgável" },
+    { "name": "skip-changelog", "color": "EDEDED", "description": "Não incluir nas notas automáticas" }
+  ],
+  "mainRuleset": {
+    "name": "Proteger main",
+    "target": "branch",
+    "enforcement": "active",
+    "bypass_actors": [],
+    "conditions": { "ref_name": { "include": ["refs/heads/main"], "exclude": [] } },
+    "rules": [
+      { "type": "deletion" },
+      { "type": "non_fast_forward" },
+      { "type": "required_linear_history" },
+      {
+        "type": "pull_request",
+        "parameters": {
+          "required_approving_review_count": 0,
+          "dismiss_stale_reviews_on_push": true,
+          "require_code_owner_review": false,
+          "require_last_push_approval": false,
+          "required_review_thread_resolution": true,
+          "allowed_merge_methods": ["squash"]
+        }
+      },
+      {
+        "type": "required_status_checks",
+        "parameters": {
+          "strict_required_status_checks_policy": true,
+          "do_not_enforce_on_create": false,
+          "required_status_checks": [
+            { "context": "Validar Windows" },
+            { "context": "Analisar CSharp" }
+          ]
+        }
+      }
+    ]
+  },
+  "tagRuleset": {
+    "name": "Preservar versões publicadas",
+    "target": "tag",
+    "enforcement": "active",
+    "bypass_actors": [],
+    "conditions": { "ref_name": { "include": ["refs/tags/v*"], "exclude": [] } },
+    "rules": [{ "type": "deletion" }, { "type": "update" }]
+  }
+}

@@ -13,8 +13,10 @@ public sealed class AdbSnapshotReader : IAdbSnapshotReader
         {
             StartInfo = new ProcessStartInfo(executable)
             {
-                UseShellExecute = false, CreateNoWindow = true,
-                RedirectStandardOutput = true, RedirectStandardError = true
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
             }
         };
         processo.StartInfo.ArgumentList.Add("mdns");

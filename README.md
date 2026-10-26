@@ -1,63 +1,101 @@
+<p align="center">
+  <img src="DiscoveryDeviceAndroid/Distribution/preview.png" width="88" alt="Ícone do Android via Wi-Fi" />
+</p>
+
 # Android via Wi-Fi para Visual Studio
 
-Extensão em C# para descoberta, pareamento e conexão de dispositivos Android pela rede sem fio. A interface usa uma janela do Visual Studio com Remote UI, temas do IDE, navegação por teclado e textos em português.
+Descubra, pareie e conecte dispositivos Android pela rede sem fio a partir de uma janela do Visual Studio.
 
-## Funcionalidades implementadas
+[![CI](https://github.com/afernandes/DiscoveryDeviceAndroid/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/afernandes/DiscoveryDeviceAndroid/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/afernandes/DiscoveryDeviceAndroid/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/afernandes/DiscoveryDeviceAndroid/actions/workflows/codeql.yml)
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE.txt)
+[![Status Preview](https://img.shields.io/badge/status-Preview-orange.svg)](CHANGELOG.md)
 
-- Descoberta automática, atualizada a cada quatro segundos, de serviços de pareamento e conexão.
-- Modelo, versão de API e versão ADB Wi-Fi quando fornecidos pelo ADB moderno. A descoberta antiga continua disponível como alternativa e não inventa metadados ausentes.
-- Busca por modelo, nome de instância e endereço.
-- Pareamento com código de seis dígitos ou QR code compatível com o protocolo do Android Studio.
-- Sessões QR com identidade e segredo criptograficamente aleatórios, renovação, encerramento e expiração em três minutos.
-- Conexão e desconexão manuais por IP e porta; listagem do estado real dos dispositivos no ADB.
-- Localização automática do Android SDK, com caminho de `adb.exe` configurável na janela.
-- Processos sem shell intermediário, timeout e cancelamento. O código de pareamento é transmitido pela entrada padrão e removido das mensagens retornadas.
+**[Baixar uma release](https://github.com/afernandes/DiscoveryDeviceAndroid/releases)** · [Instalar](docs/INSTALACAO.md) · [Documentação](docs/README.md) · [Relatar problema](https://github.com/afernandes/DiscoveryDeviceAndroid/issues/new/choose)
 
-## Requisitos e uso
+## O que a extensão oferece
 
-Use Windows, Visual Studio com suporte a VisualStudio.Extensibility (o pacote declara VS 2022 17.14 ou superior), Android SDK Platform-Tools e um aparelho com Android 11 ou superior. O carregamento da janela no Visual Studio foi confirmado por captura fornecida pelo usuário. A correção da exibição do QR no primeiro clique ainda precisa ser confirmada no host; veja os detalhes em docs/validacao.md.
+- Descoberta automática por mDNS e busca por modelo, instância ou endereço.
+- Modelo, API e versão ADB Wi-Fi quando o dispositivo fornece esses dados.
+- Pareamento com QR code temporário ou código de seis dígitos.
+- Conexão e desconexão manuais por IP e porta.
+- Lista de dispositivos e estados reportados pelo ADB.
+- Interface em português do Brasil e uso do Android SDK já instalado.
 
-Após carregar a extensão no IDE, abra **Ferramentas → Android via Wi-Fi**.
+Não é necessário abrir ou instalar o Android Studio para usar a extensão.
 
-1. Conecte computador e aparelho à mesma rede. Ative **Opções do desenvolvedor → Depuração sem fio** no Android.
-2. Para QR code, clique em **Gerar novo QR code** e use **Parear dispositivo com QR code** no Android. A extensão aceita somente o anúncio cujo nome corresponde exatamente à sessão criada.
-3. Para código, abra **Parear dispositivo com código de pareamento**, selecione o serviço correspondente ou informe seu endereço e o código temporário.
-4. Confira a lista **Dispositivos reconhecidos pelo ADB**. O estado `device` indica comunicação online. Pareamento bem-sucedido, isoladamente, não comprova conexão.
-5. Se o ADB não conectar automaticamente, selecione o serviço de conexão ou copie o endereço da tela principal de Depuração sem fio para a aba **Conexão manual**.
+## Instalação
 
-As portas de pareamento e conexão são diferentes e podem mudar. A extensão não associa aparelhos apenas por IP nem reutiliza a porta de pareamento para conectar. Redes que bloqueiam multicast mDNS podem exigir entrada manual. Para aparecer nos destinos de depuração do Visual Studio, o aparelho deve estar online no servidor ADB usado pelo SDK do IDE; caminhos para SDKs diferentes podem exigir ajuste em **Configuração do Android SDK e diagnóstico**.
+1. Abra [Releases](https://github.com/afernandes/DiscoveryDeviceAndroid/releases) e baixe o `.vsix` ou o ZIP com sufixo `devs`.
+2. Se baixou o ZIP, extraia-o e abra o `.vsix` com dois cliques.
+3. Conclua o instalador para o Visual Studio compatível.
+4. Abra **Ferramentas → Android via Wi-Fi**.
 
-## Compilar e testar
+O arquivo `SHA256SUMS.txt` da release permite conferir a integridade dos downloads. Os pacotes atuais não são assinados com certificado do autor. Instruções completas e diagnóstico estão no [guia de instalação](docs/INSTALACAO.md).
 
-Na raiz do projeto:
+## Requisitos
+
+| Componente | Requisito declarado |
+|---|---|
+| Computador | Windows x64 |
+| IDE | Visual Studio 2022 17.14 ou Visual Studio 2026 |
+| SDK Android | Platform-Tools instalado; caminho do ADB configurável |
+| Dispositivo | Android 11 ou superior com Depuração sem fio habilitada |
+| Rede | Comunicação permitida entre computador e aparelho |
+
+O pacote não declara ARM64. A compatibilidade declarada ainda não foi homologada em todas as versões do IDE e do Android.
+
+## Primeiro pareamento
+
+1. Conecte os dois dispositivos à mesma rede e ative **Opções do desenvolvedor → Depuração sem fio** no Android.
+2. Para QR, clique em **Gerar novo QR code** na extensão e escolha **Parear dispositivo com QR code** no aparelho.
+3. Para código, abra **Parear dispositivo com código de pareamento** no Android, selecione o serviço correspondente ou informe o endereço e o código temporário.
+4. Aguarde o estado `device` na lista do ADB.
+5. Se não conectar automaticamente, use a aba **Conexão manual** com o endereço da tela principal de Depuração sem fio.
+
+As portas de pareamento e de conexão são diferentes. Redes que bloqueiam multicast mDNS podem exigir entrada manual. Use o mesmo SDK/ADB configurado no Visual Studio para compartilhar os dispositivos com o seletor de depuração.
+
+## Estado da prévia
+
+O carregamento da janela e a descoberta de um SM-X820 foram observados. Os testes automatizados cobrem parsing, endereços, subprocessos, timeout, cancelamento e renderização/decodificação do QR no WPF.
+
+**Ainda precisam de validação:** pareamento físico completo, confirmação do primeiro QR no host remoto, instalação limpa em outras máquinas e depuração real de um aplicativo. Consulte a [matriz de integração](docs/VALIDACAO-FISICA.md) e o [histórico de validação](docs/validacao.md).
+
+## Desenvolver e contribuir
+
+Requer Windows, PowerShell 7.2+, SDK .NET 10 estável e runtime .NET 8 Desktop. Os testes não precisam de aparelho conectado nem de ADB instalado.
 
 ```powershell
-dotnet build DiscoveryDeviceAndroid.slnx -c Release
-dotnet test DiscoveryDeviceAndroid.Tests -c Release --no-build
-dotnet test DiscoveryDeviceAndroid.UiTests -c Release --no-build
+git clone https://github.com/afernandes/DiscoveryDeviceAndroid.git
+cd DiscoveryDeviceAndroid
+pwsh ./scripts/Verificar.ps1
 ```
 
-Também é possível executar `scripts/Verificar.ps1`. O VSIX é gerado em `DiscoveryDeviceAndroid/bin/Release/net8.0-windows8.0/DiscoveryDeviceAndroid.vsix`.
+A verificação restaura dependências com lock files, audita transitivas, confere formatação, compila e executa os testes. Leia [CONTRIBUTING.md](CONTRIBUTING.md) antes de abrir um PR.
 
-O projeto original usava `Microsoft.VisualStudio.Sdk.Build` e o destino `vs18_11`, que não resolviam neste ambiente. A implementação usa o formato publicado nos exemplos oficiais da Microsoft: `Microsoft.NET.Sdk`, `net8.0-windows8.0` e pacotes VisualStudio.Extensibility 17.14.40608. Não foi necessário instalar outro SDK ou alterar a instalação do Visual Studio.
+Para gerar uma distribuição local:
 
-## Distribuir e publicar
+```powershell
+pwsh ./scripts/Empacotar.ps1 -DiretorioSaida ./artifacts/minha-distribuicao
+```
 
-Execute `.\scripts\Empacotar.ps1` para gerar o VSIX versionado, um ZIP para compartilhar com os desenvolvedores e um ZIP com os materiais do Marketplace. A saída padrão fica em `dist/AndroidWifi-1.0.1-preview`. O script preserva pacotes anteriores; se o destino já existir, informe outro diretório com `-DiretorioSaida`.
+Os artefatos são gerados fora do código versionado e o script preserva diretórios já existentes. O CI entrega os mesmos tipos de pacote como artefatos; a [publicação de releases](docs/MANUTENCAO.md) é iniciada manualmente e não envia arquivos ao Marketplace.
 
-As instruções estão em [Instalação](docs/INSTALACAO.md) e [Publicação](docs/PUBLICACAO.md). A geração local não publica a extensão nem cria uma conta de publisher. Confirme seu publisher antes da publicação pública. A extensão é distribuída sob a [licença MIT](LICENSE.txt); as dependências mantêm suas respectivas licenças e avisos.
+## Organização
 
-## Organização dos arquivos
+| Diretório | Conteúdo |
+|---|---|
+| `DiscoveryDeviceAndroid` | Extensão, pareamento e Remote UI |
+| `DiscoveryDeviceAndroid.Core` | Descoberta, conexão e infraestrutura ADB |
+| `DiscoveryDeviceAndroid.Tests` | Contratos e execução de processos |
+| `DiscoveryDeviceAndroid.UiTests` | Binding e renderização WPF do QR |
+| `scripts` | Validação, empacotamento, release e configuração do repositório |
+| `.github` | Workflows, templates e políticas versionadas |
+| `docs` | Guias, arquitetura, validação e evidências |
+| `marketplace` | Materiais da página da loja |
 
-- `DiscoveryDeviceAndroid/Pareamento`: comando, janela, apresentação e sessão QR. XAML e C# separados.
-- `DiscoveryDeviceAndroid.Core`: descoberta, dispositivos, conexão e execução de processos. Sem dependência do Visual Studio.
-- `DiscoveryDeviceAndroid.Tests`: testes do protocolo textual, endereços, segurança do segredo e processos.
-- `DiscoveryDeviceAndroid.UiTests`: renderização WPF real do QR e leitura por uma biblioteca independente, além de renovação e expiração da sessão.
-- `docs/android-research.md`: engenharia reversa do Android Studio instalado, fontes primárias, evidências e limites.
-- `docs/validacao.md`: resultados e pendências da validação local.
+## Licença e contato
 
-## Limites
+Distribuído sob a [MIT](LICENSE.txt). Os avisos e licenças das dependências são incluídos no VSIX e nos ZIPs. A extensão não incorpora o ADB nem binários do Android Studio.
 
-O projeto recria a funcionalidade e usa o ADB instalado. Não reproduz pixel a pixel os diálogos do Android Studio. A compatibilidade de protocolo foi investigada por bytecode e documentação; o pareamento físico e uma sessão de depuração do Visual Studio ainda precisam ser validados no aparelho.
-
-Referências: [exemplo oficial de ToolWindow](https://github.com/microsoft/VSExtensibility/tree/main/New_Extensibility_Model/Samples/ToolWindowSample), [Remote UI](https://learn.microsoft.com/visualstudio/extensibility/visualstudio.extensibility/inside-the-sdk/remote-ui), [protocolo ADB Wi-Fi](https://android.googlesource.com/platform/packages/modules/adb/+/HEAD/docs/dev/adb_wifi.md).
+Para dúvidas e sugestões, use [Issues](https://github.com/afernandes/DiscoveryDeviceAndroid/issues/new/choose). Para vulnerabilidades, siga o [canal privado](SECURITY.md). Não há vínculo oficial com Google ou Microsoft; as marcas pertencem aos respectivos titulares.

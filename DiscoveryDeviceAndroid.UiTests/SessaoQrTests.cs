@@ -45,7 +45,8 @@ public sealed class SessaoQrTests
                 conclusao.SetResult();
             }
             catch (Exception erro) { conclusao.SetException(erro); }
-        }) { IsBackground = true };
+        })
+        { IsBackground = true };
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
         await conclusao.Task.WaitAsync(TimeSpan.FromSeconds(15));
