@@ -61,8 +61,8 @@
           "strict_required_status_checks_policy": true,
           "do_not_enforce_on_create": false,
           "required_status_checks": [
-            { "context": "Validar Windows" },
-            { "context": "Analisar CSharp" }
+            { "context": "Validar Windows", "integration_id": 15368 },
+            { "context": "Analisar CSharp", "integration_id": 15368 }
           ]
         }
       }
