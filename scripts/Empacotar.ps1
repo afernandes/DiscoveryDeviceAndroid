@@ -1,8 +1,12 @@
+#requires -Version 7.2
 param([string]$DiretorioSaida)
 $ErrorActionPreference = 'Stop'
 $raiz = Split-Path -Parent $PSScriptRoot
 Push-Location $raiz
 try {
+    if (-not [string]::IsNullOrWhiteSpace($DiretorioSaida) -and (Test-Path -LiteralPath $DiretorioSaida)) {
+        throw 'O destino informado já existe. Escolha um diretório novo para preservar o pacote anterior.'
+    }
     & (Join-Path $PSScriptRoot 'Verificar.ps1')
     & (Join-Path $PSScriptRoot 'GerarAvisosTerceiros.ps1')
     & dotnet build DiscoveryDeviceAndroid\DiscoveryDeviceAndroid.csproj -c Release --no-restore -v:minimal
@@ -22,7 +26,8 @@ try {
         if ($manifesto.PackageManifest.Metadata.License.Replace('\', '/') -ne 'Distribution/LICENSE.txt') { throw 'O manifesto do VSIX não referencia a licença da extensão.' }
         $versaoCompleta = [version]$identidade.Version
         $versao = '{0}.{1}.{2}' -f $versaoCompleta.Major, $versaoCompleta.Minor, $versaoCompleta.Build
-        $nomeBase = "AndroidWifi-$versao-preview"
+        $preview = $manifesto.PackageManifest.Metadata.Preview -eq 'true'
+        $nomeBase = 'AndroidWifi-' + $versao + $(if ($preview) { '-preview' } else { '' })
         $publisher = (Get-Content marketplace\publishmanifest.json -Raw | ConvertFrom-Json).publisher
         if ($publisher -ne $identidade.Publisher) { throw 'Publisher do manifesto da loja difere do publisher do VSIX.' }
     }
@@ -53,6 +58,16 @@ try {
     Copy-Item -LiteralPath (Join-Path $raiz 'DiscoveryDeviceAndroid\Distribution\icon.png') -Destination (Join-Path $publicar 'marketplace')
     Copy-Item -LiteralPath (Join-Path $raiz 'DiscoveryDeviceAndroid\Distribution\preview.png') -Destination (Join-Path $publicar 'marketplace')
     Copy-Item -LiteralPath (Join-Path $raiz 'docs\PUBLICACAO.md') -Destination $publicar
+    foreach ($documento in @(Get-ChildItem -LiteralPath $publicar -Recurse -Filter '*.md' -File)) {
+        foreach ($link in [regex]::Matches([IO.File]::ReadAllText($documento.FullName), '\]\(([^\s)]+)(?:\s+"[^"]*")?\)')) {
+            $referencia = $link.Groups[1].Value.Trim('<','>')
+            if ($referencia -match '^([a-z][a-z0-9+.-]*:|#|/)') { continue }
+            $alvo = [Uri]::UnescapeDataString(($referencia -split '#', 2)[0])
+            if ($alvo -and -not (Test-Path -LiteralPath (Join-Path $documento.DirectoryName $alvo))) {
+                throw "Link quebrado no material distribuído $($documento.Name): $referencia"
+            }
+        }
+    }
     $zipDevs = Join-Path $destino ($nomeBase + '-devs.zip')
     $zipLoja = Join-Path $destino ($nomeBase + '-marketplace.zip')
     [IO.Compression.ZipFile]::CreateFromDirectory($compartilhar, $zipDevs)
@@ -64,6 +79,7 @@ try {
     [ordered]@{
         nome = 'Android via Wi-Fi'; versao = $identidade.Version; publisher = $publisher
         idVsix = $identidade.Id; geradoEmUtc = [DateTimeOffset]::UtcNow.ToString('O')
+        commit = ((& git rev-parse HEAD) -join '').Trim(); preview = $preview
         assinaturaDoAutor = $false; publicado = $false
         licencaDefinida = $true; licenca = 'MIT'
     } | ConvertTo-Json | Set-Content (Join-Path $destino 'release-info.json') -Encoding utf8

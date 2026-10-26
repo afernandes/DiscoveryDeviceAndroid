@@ -4,3 +4,6 @@
 **/TestResults/
 *.user
 dist/
+artifacts/
+.nuget/
+DiscoveryDeviceAndroid/Distribution/THIRD-PARTY-NOTICES.txt

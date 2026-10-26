@@ -4,7 +4,7 @@
 
 1. Extraia o ZIP recebido para uma pasta local.
 2. Salve seu trabalho e feche o Visual Studio, caso o instalador solicite.
-3. Abra `AndroidWifi-1.0.1-preview.vsix` com dois cliques.
+3. Abra o arquivo `.vsix` da versão baixada com dois cliques.
 4. Selecione a instalação compatível do Visual Studio e conclua o instalador.
 5. Abra o IDE e acesse **Ferramentas → Android via Wi-Fi**.
 
@@ -22,7 +22,7 @@ Pareamento e conexão usam portas diferentes. Para conexão manual, copie o IP e
 
 ## Atualização e remoção
 
-Instale o novo VSIX quando houver uma versão maior. O ID da extensão é mantido para que a atualização substitua a mesma extensão. Para remover, use o gerenciador de extensões do Visual Studio.
+Instale o novo VSIX quando houver uma versão mais recente. O ID da extensão é mantido para que a atualização substitua a mesma extensão. Para remover, use o gerenciador de extensões do Visual Studio.
 
 ## Se o instalador falhar
 

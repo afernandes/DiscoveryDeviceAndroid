@@ -1,0 +1,47 @@
+name: Relatar um problema
+description: Erro na instalação, descoberta, pareamento, conexão ou interface.
+title: "[Bug]: "
+labels: [bug, "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Não inclua códigos de pareamento, chaves ADB ou logs com dados pessoais. Para vulnerabilidades, use o canal privado descrito em SECURITY.md.
+  - type: input
+    id: extension_version
+    attributes:
+      label: Versão da extensão
+      placeholder: Ex. 1.0.1 Preview
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Versão/edição do Visual Studio, Windows, Android e saída de adb version.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Como reproduzir
+      description: Descreva os passos desde a abertura da janela.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Resultado observado e evidências
+      description: Inclua a mensagem de erro e, se útil, uma captura sem dados sensíveis.
+    validations:
+      required: true
+  - type: dropdown
+    id: method
+    attributes:
+      label: Fluxo afetado
+      options: [Instalação, Descoberta mDNS, Pareamento por QR, Pareamento por código, Conexão manual, Interface, Outro]

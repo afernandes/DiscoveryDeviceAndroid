@@ -27,7 +27,7 @@ Confirme o ID do publisher da sua conta antes do primeiro upload. O campo Publis
 
 1. Acesse [Gerenciar publicações no Marketplace](https://marketplace.visualstudio.com/manage), entre na sua conta Microsoft e selecione ou crie seu publisher.
 2. Selecione **New extension → Visual Studio**.
-3. Envie `AndroidWifi-1.0.1-preview.vsix`.
+3. Envie o `.vsix` da versão gerada.
 4. Revise nome, versão, publisher, compatibilidade e o nome interno `AndroidWifi`.
 5. Use `marketplace/overview.md` como descrição detalhada. O logo já está incluído no VSIX; a pasta de materiais também contém os PNGs.
 6. Defina categoria, preço e os demais dados solicitados pelo portal. A proposta dos arquivos é gratuita e classificada como Preview.
@@ -50,7 +50,7 @@ Os caminhos acima são instruções a adaptar ao ambiente. Prefira o portal para
 
 ## Atualizações
 
-Mantenha o ID do VSIX e o nome interno da loja. Aumente `Version`, `AssemblyVersion` e `FileVersion` no projeto da extensão, atualize as notas e gere novo pacote. No Marketplace, edite a extensão existente e envie o novo VSIX. Para uma atualização automática, o usuário precisa instalar a mesma identidade de extensão e manter as atualizações habilitadas no IDE.
+Mantenha o ID do VSIX e o nome interno da loja. Aumente `Version` em `Directory.Build.props`, atualize as notas e gere novo pacote. No Marketplace, edite a extensão existente e envie o novo VSIX. Para uma atualização automática, o usuário precisa instalar a mesma identidade de extensão e manter as atualizações habilitadas no IDE.
 
 ## Evidência e limites
 
@@ -61,3 +61,7 @@ Referências oficiais:
 - [Publicar uma extensão do Visual Studio](https://learn.microsoft.com/visualstudio/extensibility/walkthrough-publishing-a-visual-studio-extension).
 - [Publicar pela linha de comando](https://learn.microsoft.com/visualstudio/extensibility/walkthrough-publishing-a-visual-studio-extension-via-command-line).
 - [Metadados de VisualStudio.Extensibility](https://learn.microsoft.com/dotnet/api/microsoft.visualstudio.extensibility.extensionmetadata?view=vs-extensibility).
+
+## Automação no GitHub
+
+O workflow Release valida a versão, executa os testes e publica os arquivos no GitHub a partir de main por acionamento manual. Consulte [guia de manutenção](https://github.com/afernandes/DiscoveryDeviceAndroid/blob/main/docs/MANUTENCAO.md). A publicação no Marketplace continua separada e manual; o workflow não usa credenciais da loja.

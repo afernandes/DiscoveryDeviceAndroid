@@ -1,6 +1,6 @@
 # Investigação do pareamento Wi-Fi do Android Studio
 
-Data: 26/10/2026. Inspeção estática, sem executar código do Android Studio nem efetuar pareamento em aparelho.
+Data: 26/10/2026. Identificadores de dispositivo e endereços dos exemplos foram anonimizados. Inspeção estática, sem executar código do Android Studio nem efetuar pareamento em aparelho.
 
 ## Identidade do artefato
 
@@ -91,13 +91,13 @@ O cliente fica em execução acompanhando mudanças. A captura passiva abaixo fo
 Services:
 tls {
   service {
-    instance: "adb-RX2Y500RDTM-9oc9ZW"
+    instance: "adb-EXEMPLO1234-demo"
     service: "_adb-tls-connect._tcp"
-    ipv4: "192.168.15.8"
-    ipv6: "2804:7f0:8426:8edc:336e:7c19:6c30:d0a4"
-    ipv6: "fe80:0:0:0:80c6:8fff:fe0c:ecda"
-    ipv6: "2804:7f0:8426:8edc:80c6:8fff:fe0c:ecda"
-    ipv6: "2804:7f0:8426:8edc:9590:60c8:1808:f4b6"
+    ipv4: "192.0.2.10"
+    ipv6: "2001:db8::10"
+    ipv6: "fe80::10"
+    ipv6: "2001:db8::11"
+    ipv6: "2001:db8::12"
     port: 39775
     product_model: "SM-X820"
     build_version_sdk_full: "36.1"
@@ -111,6 +111,6 @@ tls {
 
 Esse anúncio comprova que é possível obter o modelo SM-X820, API 36.1 e versão mDNS 1 sem abrir uma shell no aparelho e sem primeiro pareá-lo nesta investigação. `known_device: true` foi reportado pelo ADB; não se investigou quando ou por quem ocorreu esse pareamento prévio. `serial` está ausente. Os IPv6 são campos repetidos. A porta de conexão coincide com a imagem fornecida, mas continua sendo valor dinâmico, nunca constante de implementação.
 
-Framing observado: linha vazia inicial, `Services:`, conteúdo protobuf textual com chaves aninhadas, linha vazia final; stderr vazio. Não houve mudança de rede durante a captura, portanto não foi observado um segundo snapshot. Ao implementar leitura pontual, não aguardar EOF de um cliente contínuo: impor timeout/cancelamento, aceitar apenas snapshots completos e encerrar somente o processo próprio. Uma captura interrompida no meio de um bloco não deve substituir o estado válido anterior.
+Framing observado: linha vazia inicial, `Services:` e conteúdo protobuf textual com chaves aninhadas, encerrado por CRLF após a chave final; uma linha vazia adicional não é garantida; stderr vazio. Não houve mudança de rede durante a captura, portanto não foi observado um segundo snapshot. Ao implementar leitura pontual, não aguardar EOF de um cliente contínuo: impor timeout/cancelamento, aceitar apenas snapshots completos e encerrar somente o processo próprio. Uma captura interrompida no meio de um bloco não deve substituir o estado válido anterior.
 
 O [schema público do adblib](https://android.googlesource.com/platform/tools/base/+/ff1751d7365def37a013f92f574f999e50c81359/adblib/proto/mdns.proto) prevê coleções `tcp`, `tls` e `pair`, cada uma contendo `service`; `known_device` pertence ao invólucro `tls`. Há divergência de nome do modelo nesse snapshot do schema (`device_model`) em relação à saída local (`product_model`); para compatibilidade, aceitar ambos, priorizando o campo efetivamente anunciado. Campos desconhecidos devem ser tolerados. Não confundir o campo textual `service: "_adb-tls-connect._tcp"` com o bloco `service { ... }`.

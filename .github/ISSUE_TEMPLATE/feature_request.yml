@@ -1,0 +1,23 @@
+name: Sugerir uma melhoria
+description: Proponha uma funcionalidade ou melhoria de experiência.
+title: "[Melhoria]: "
+labels: [enhancement, "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qual problema você precisa resolver?
+      description: Descreva o cenário e quem se beneficia.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Solução proposta
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas e evidências
+      description: Exemplos, limitações conhecidas ou opções já consideradas.

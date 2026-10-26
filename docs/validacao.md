@@ -1,4 +1,6 @@
-# Validação local — 26/10/2026
+# Validação local inicial — 26/10/2026
+
+> Registro histórico. O carregamento da janela foi confirmado posteriormente pela captura do usuário, conforme a atualização ao final. Os testes atuais são executados pelo CI. Os identificadores e endereços dos exemplos foram anonimizados; números de versão e conclusões foram preservados.
 
 ## Resultado reproduzível
 
@@ -23,16 +25,16 @@ O ADB instalado, versão `37.0.1-15733141`, foi localizado em `C:\Program Files 
 | API | 36.1 |
 | Versão mDNS | 1 |
 | Tipo | `_adb-tls-connect._tcp` |
-| Endereço naquele instante | 192.168.15.8:39775 |
+| Endereço naquele instante | 192.0.2.10:39775 |
 | Dispositivo conhecido | true |
 
 O aparelho já estava autorizado e online no ADB. Isso não é resultado de um novo pareamento feito pela extensão. Não foram executados `pair`, `connect`, `disconnect` nem reinicialização do servidor ADB contra esse aparelho. Os testes dessas operações usam executor controlado.
 
-## Host Visual Studio: pendente
+## Histórico da investigação do host Visual Studio
 
 O Visual Studio Professional 2026 instalado é 18.11.12324.101. O projeto inicial não compilava porque `Microsoft.VisualStudio.Sdk.Build` não era resolvido nem pelo `dotnet build` nem pelo MSBuild da instalação. O formato foi substituído pelo SDK .NET e pelos pacotes publicados usados nos exemplos oficiais da Microsoft.
 
-O empacotamento funciona, mas a instalação/carregamento no IDE ainda não foi confirmada:
+Na tentativa inicial, o empacotamento funcionava, mas o carregamento no IDE ainda não havia sido confirmado:
 
 1. `VSIXInstaller /quiet /rootSuffix:Exp /instanceIds:4eaf4948` retornou `RequiresInstallerException`, com a mensagem `Multiple targets are currently not supported for this operation`.
 2. A seleção explícita de `appIdInstallPath`, `appIdName`, SKU e versão retornou a mesma mensagem.
