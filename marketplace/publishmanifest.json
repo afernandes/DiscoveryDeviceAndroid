@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": ["coding", "testing"],
+  "identity": { "internalName": "AndroidWifi" },
+  "overview": "overview.md",
+  "priceCategory": "free",
+  "publisher": "afernandes",
+  "private": true,
+  "qna": true
+}

@@ -1,0 +1,13 @@
+Android via Wi-Fi 1.0.1 - Preview
+
+- Descoberta de dispositivos Android por mDNS, com alternativa para versões antigas do ADB.
+- Modelo, API e versão ADB Wi-Fi quando anunciados pelo dispositivo.
+- Pareamento com código ou QR code temporário.
+- Conexão/desconexão manual e consulta do estado dos dispositivos.
+- Melhoria da exibição do QR: geometria vetorial desenhada pelo próprio XAML.
+- Pacote versionado para distribuição.
+
+Compatibilidade declarada: Visual Studio 2022 17.14 e Visual Studio 2026, Windows x64.
+Carregamento observado por captura no Visual Studio; os demais cenários e versões
+ainda não possuem homologação completa. O pareamento físico e a depuração de
+um aplicativo real continuam pendentes de validação.

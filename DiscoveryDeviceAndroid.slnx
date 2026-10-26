@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="DiscoveryDeviceAndroid.Core/DiscoveryDeviceAndroid.Core.csproj" />
+  <Project Path="DiscoveryDeviceAndroid.Tests/DiscoveryDeviceAndroid.Tests.csproj" />
+  <Project Path="DiscoveryDeviceAndroid.UiTests/DiscoveryDeviceAndroid.UiTests.csproj" />
+  <Project Path="DiscoveryDeviceAndroid/DiscoveryDeviceAndroid.csproj">
+    <Deploy />
+  </Project>
+</Solution>
