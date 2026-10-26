@@ -6,6 +6,7 @@ Push-Location $raiz
 try {
     if (-not $IsWindows) { throw 'A validação completa requer Windows por causa do WPF e do Visual Studio.' }
     & (Join-Path $PSScriptRoot 'TestarRepositorio.ps1')
+    & (Join-Path $PSScriptRoot 'TestarPublicacao.ps1')
     & dotnet restore DiscoveryDeviceAndroid.slnx --locked-mode -v:minimal
     if ($LASTEXITCODE -ne 0) { throw 'A restauração de dependências falhou.' }
     & dotnet format whitespace DiscoveryDeviceAndroid.slnx --verify-no-changes --no-restore --verbosity minimal

@@ -2,7 +2,7 @@
 
 ## Pull requests
 
-`main` recebe alterações por PR e merge por squash. A política exige os checks **Validar Windows** e **Analisar CSharp**, atualização em relação à base e resolução das conversas. Force push e exclusão da branch são bloqueados, sem exceção permanente de administrador. O administrador continua podendo editar a política para recuperação explícita.
+`main` recebe alterações por PR e merge por squash. A política exige os checks **Validar Windows** e **Analisar CSharp**, atualização em relação à base e resolução das conversas. A política de code scanning bloqueia erros e novos alertas de segurança altos/críticos do CodeQL. Force push e exclusão da branch são bloqueados, sem exceção permanente de administrador. O administrador continua podendo editar a política para recuperação explícita.
 
 `CODEOWNERS` encaminha a responsabilidade para `@afernandes`. O número de aprovações obrigatórias é zero enquanto há um único mantenedor: isso mantém PR e CI obrigatórios sem exigir uma aprovação que o próprio autor não pode fornecer. Ao adicionar outro mantenedor, recomenda-se exigir uma aprovação externa e aprovação de code owner.
 
@@ -12,9 +12,9 @@ Branches de trabalho são excluídas após a integração. Tags `v*` não podem 
 
 O workflow [ci.yml](../.github/workflows/ci.yml) usa Windows e instala SDKs .NET 8/10. `global.json` seleciona um SDK 10 estável; o runtime 8 atende os testes WPF. Os pacotes são restaurados com `--locked-mode` e cache baseado em `packages.lock.json`.
 
-O job valida JSON/XML, sintaxe dos scripts e links locais, confere formatação, compila, executa testes e verifica o conteúdo do VSIX. Relatórios TRX e distribuição são armazenados como artefatos. A execução não conecta aparelhos nem efetua homologação do IDE.
+O job valida JSON/XML, sintaxe dos scripts, links locais e cinco cenários do publicador com gh simulado, confere formatação, compila, executa testes e verifica o conteúdo do VSIX. Relatórios TRX e distribuição são armazenados como artefatos. A execução não conecta aparelhos nem efetua homologação do IDE.
 
-Os workflows usam Actions oficiais fixadas por SHA, tokens de leitura por padrão e nenhum `pull_request_target`. Dependabot abre PRs semanais de NuGet e Actions; não faz merge automático. CodeQL analisa C# nos PRs, em `main` e semanalmente. A auditoria NuGet inclui transitivas e não ignora advisories para liberar o build.
+As permissões do repositório permitem Actions oficiais do GitHub e exigem referências por SHA. Os workflows usam Actions oficiais fixadas por SHA, tokens de leitura por padrão e nenhum `pull_request_target`. Dependabot abre PRs semanais de NuGet e Actions; não faz merge automático. CodeQL analisa C# nos PRs, em `main` e semanalmente. A auditoria NuGet inclui transitivas e não ignora advisories para liberar o build.
 
 ## Release no GitHub
 
