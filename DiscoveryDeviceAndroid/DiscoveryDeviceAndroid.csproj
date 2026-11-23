@@ -11,7 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Extensibility.Sdk" Version="17.14.40608" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Extensibility.Build" Version="17.14.40608" PrivateAssets="all" />
-    <PackageReference Include="QRCoder" Version="1.8.1" />
+    <PackageReference Include="QRCoder" Version="1.9.0" />
     <PackageReference Include="MessagePack" Version="2.5.307" ExcludeAssets="analyzers" />
     <ProjectReference Include="..\DiscoveryDeviceAndroid.Core\DiscoveryDeviceAndroid.Core.csproj" />
     <EmbeddedResource Include="**\*.xaml" />
